@@ -55,7 +55,7 @@
                     </div>
                     <div class="mb-4">
                         <label class="form-label text-muted fw-semibold">Email address</label>
-                        <input type="email" name="email" class="form-control form-control-lg bg-light border-0" placeholder="adminwoman@gmail.com" required>
+                        <input type="email" name="email" class="form-control form-control-lg bg-light border-0" placeholder="example@gmail.com" required>
                     </div>
                     <div class="mb-4">
                         <label class="form-label text-muted fw-semibold">Password</label>
