@@ -2,66 +2,111 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add Student</title>
+    <title>Add Student - Split Screen</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-side {
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+        .form-wrapper {
+            width: 100%;
+            max-width: 500px;
+            padding: 2rem;
+        }
+        .brand-side {
+            background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            min-height: 100vh;
+            position: sticky;
+            top: 0;
+        }
+    </style>
 </head>
-<body class="py-5 bg-light">
-<div class="container" style="max-width: 600px;">
-    <div class="card shadow-sm border-0">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Register New Student</h5>
+<body>
+<div class="container-fluid p-0">
+    <div class="row g-0">
+        <!-- Left Side: Branding (Hidden on mobile) -->
+        <div class="col-lg-6 d-none d-lg-flex brand-side">
+            <div class="text-center px-5">
+                <h1 class="display-4 fw-bold mb-4">Student Onboarding</h1>
+                <p class="lead">Register a new student to the system. Ensure all required academic and personal information is accurate.</p>
+            </div>
         </div>
-        <div class="card-body p-4">
-            @if($errors->any())
-                <div class="alert alert-danger">
-                    <ul class="mb-0">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+        
+        <!-- Right Side: Create Student Form -->
+        <div class="col-lg-6 form-side">
+            <div class="form-wrapper">
+                
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="fw-bold mb-0">Register Student</h2>
+                    <a href="{{ route('students.index') }}" class="btn btn-outline-secondary btn-sm">← Directory</a>
                 </div>
-            @endif
-
-            <form action="{{ route('students.store') }}" method="POST">
-                @csrf
-                <div class="mb-3">
-                    <label class="form-label">Student Name</label>
-                    <input type="text" name="student_name" class="form-control" value="{{ old('student_name') }}" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Email Address</label>
-                    <input type="email" name="email" class="form-control" value="{{ old('email') }}" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Gender</label>
-                    <select name="gender" class="form-select" required>
-                        <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Department</label>
-                    <select name="dept_id" class="form-select" required>
-                        <option value="">Select Department</option>
-                        @foreach($departments as $dept)
-                            <option value="{{ $dept->dept_id }}">{{ $dept->dept_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Enrollment Date</label>
-                    <input type="date" name="enrollment_date" class="form-control" value="{{ old('enrollment_date') }}" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Description (Optional)</label>
-                    <textarea name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Save Student</button>
-            </form>
-            <div class="text-center mt-3">
-                <a href="{{ route('students.index') }}" class="text-decoration-none">← Back to Directory</a>
+                
+                @if($errors->any())
+                    <div class="alert alert-danger py-2">
+                        <ul class="mb-0 ps-3">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                
+                <form action="{{ route('students.store') }}" method="POST">
+                    @csrf
+                    
+                    <div class="mb-3">
+                        <label class="form-label text-muted fw-semibold">Student Name</label>
+                        <input type="text" name="student_name" class="form-control form-control-lg bg-light border-0" value="{{ old('student_name') }}" placeholder="Full Name" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label text-muted fw-semibold">Email Address</label>
+                        <input type="email" name="email" class="form-control form-control-lg bg-light border-0" value="{{ old('email') }}" placeholder="student@example.com" required>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted fw-semibold">Gender</label>
+                            <select name="gender" class="form-select form-select-lg bg-light border-0" required>
+                                <option value="">Select...</option>
+                                <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male</option>
+                                <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Female</option>
+                                <option value="Other" {{ old('gender') == 'Other' ? 'selected' : '' }}>Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted fw-semibold">Enrollment Date</label>
+                            <input type="date" name="enrollment_date" class="form-control form-control-lg bg-light border-0" value="{{ old('enrollment_date') }}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label text-muted fw-semibold">Department</label>
+                        <select name="dept_id" class="form-select form-select-lg bg-light border-0" required>
+                            <option value="">Select Department...</option>
+                            @foreach($departments as $dept)
+                                <option value="{{ $dept->dept_id }}" {{ old('dept_id') == $dept->dept_id ? 'selected' : '' }}>{{ $dept->dept_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label text-muted fw-semibold">Description (Optional)</label>
+                        <textarea name="description" class="form-control form-control-lg bg-light border-0" rows="3" placeholder="Additional notes...">{{ old('description') }}</textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">Save Student</button>
+                </form>
+                
             </div>
         </div>
     </div>

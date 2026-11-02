@@ -2,35 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login Form</title>
+    <title>Login - Split Screen</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        .card { width: 100%; max-width: 450px; border-radius: 8px; border: 1px solid #e0e0e0; }
-        .card-header { background: transparent; border-bottom: none; text-align: center; font-size: 28px; font-weight: 500; padding-top: 25px; }
+        .login-side {
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .form-wrapper {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+        }
+        .brand-side {
+            background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            min-height: 100vh;
+        }
     </style>
 </head>
 <body>
-<div class="card shadow-sm">
-    <div class="card-header">Login Form</div>[cite: 4]
-    <div class="card-body p-4">
-        @if($errors->any())
-            <div class="alert alert-danger py-2">{{ $errors->first() }}</div>
-        @endif
-        <form action="{{ url('/login') }}" method="POST">
-            @csrf
-            <div class="mb-3">
-                <label class="form-label">Email address</label>[cite: 4]
-                <input type="email" name="email" class="form-value form-control" placeholder="adminwoman@gmail.com" required>[cite: 4]
+<div class="container-fluid p-0">
+    <div class="row g-0">
+        <!-- Left Side: Branding (Hidden on mobile) -->
+        <div class="col-lg-6 d-none d-lg-flex brand-side">
+            <div class="text-center px-5">
+                <h1 class="display-4 fw-bold mb-4">Welcome Back</h1>
+                <p class="lead">Log in to access your dashboard and manage your account seamlessly.</p>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Password</label>[cite: 4]
-                <input type="password" name="password" class="form-control" placeholder="•••••" required>[cite: 4]
+        </div>
+        
+        <!-- Right Side: Login Form -->
+        <div class="col-lg-6 login-side">
+            <div class="form-wrapper">
+                <h2 class="fw-bold mb-4">Sign In</h2>
+                
+                @if($errors->any())
+                    <div class="alert alert-danger py-2">{{ $errors->first() }}</div>
+                @endif
+                
+                <form action="{{ url('/login') }}" method="POST">
+                    @csrf
+                    <div class="mb-4">
+                        <label class="form-label text-muted fw-semibold">Email address</label>
+                        <input type="email" name="email" class="form-control form-control-lg bg-light border-0" placeholder="example@gmail.com" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label text-muted fw-semibold">Password</label>
+                        <input type="password" name="password" class="form-control form-control-lg bg-light border-0" placeholder="•••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">Login</button>
+                </form>
+                
+                <div class="text-center mt-4">
+                    <span class="text-muted">Don't have an account?</span> 
+                    <a href="{{ route('register') }}" class="text-decoration-none fw-bold">Register</a>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary w-100 py-2 mt-2">Login</button>[cite: 4]
-        </form>
-        <div class="text-center mt-3">
-            <a href="{{ route('register') }}" class="text-decoration-none">Don't have an account? Register</a>
         </div>
     </div>
 </div>
